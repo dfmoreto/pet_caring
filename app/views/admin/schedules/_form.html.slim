@@ -1,0 +1,10 @@
+= simple_form_for(['admin', @item]) do |f|
+  header.content-header.js-content-header
+    == render 'fae/shared/form_header', header: @klass_name
+  == render 'fae/shared/errors'
+
+  main.content
+    = fae_datepicker f, :date
+    = fae_input f, :hour, input_html: { style: 'width: 47%', placeholder: "HH:MM" }
+    = fae_association f, :services
+    = fae_input f, :notes
