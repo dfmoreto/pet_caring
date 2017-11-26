@@ -6,7 +6,9 @@ main.content
       tr
         th Date
         th Hour
+        th Client
         th Services
+        th Status
         th.-action-wide Modified
         th.-action data-sorter="false"
 
@@ -16,7 +18,9 @@ main.content
           tr id=fae_sort_id(item)
             td = link_to item.fae_display_field, edit_admin_schedule_path(item)
             td = item.hour
+            td = item.client.name
             td = item.services.pluck(:title).join(", ")
+            td = item.status
             td = fae_date_format item.updated_at
             td = fae_delete_button item
       - else
