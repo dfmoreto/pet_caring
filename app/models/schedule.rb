@@ -13,6 +13,8 @@ class Schedule < ApplicationRecord
 
   enum status: { scheduled: 1, finished: 2, canceled: 3 }
 
+  after_create :send_email
+
   def self.for_fae_index
     order(:date)
   end
@@ -22,5 +24,11 @@ class Schedule < ApplicationRecord
   end
 
 
+  private
+
+
+  def send_email
+    ScheduleMailer.service(self).deliver_later if self.scheduled?
+  end
 
 end
