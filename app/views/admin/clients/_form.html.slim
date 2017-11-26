@@ -9,3 +9,10 @@
     = fae_input f, :observations
     = fae_input f, :phone
 
+- if params[:action] == 'edit'
+  section.content
+    == render 'fae/shared/nested_table',
+      assoc: :addresses,
+      parent_item: @item,
+      cols: [:street, :house_number, :district, :city, :state, :additional_information],
+      new_path: "/admin/addresses/new"
