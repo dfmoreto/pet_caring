@@ -1,0 +1,7 @@
+Service Schedule
+-----------------------
+
+Hi, <%= @schedule.client.name %>, you have a service scheduled for <%= @schedule.date.strftime("%b %d, %Y") %> at <%= @schedule.hour %>
+
+Services: <%= @schedule.services.join(", ") %>
+Budget: $<%= @schedule.services.sum(:price) %>
