@@ -4,3 +4,16 @@
 
 // Uncomment the following line if you want to use Trumbowyg HTML Editor
 // //= require fae/vendor/trumbowyg
+
+$(document).on("ready turbolinks:load", function(){
+  $("select#discount_kind").change(function(){
+    select_discount_label();
+  });
+  select_discount_label();
+});
+
+function select_discount_label(){
+  let kind = $("select#discount_kind").val();
+  let symbol = (kind == 1) ? "$" : "%";
+  $("label.input-symbol--prefix[for='discount_value']").html(symbol);
+}
