@@ -3,24 +3,29 @@
 main.content
   - if @items.present?
     - @items.each do |item|
-      .collapsible
-        h3
-          = item.title
-          | &nbsp;&nbsp;&nbsp;
-          = link_to "Delete", admin_campaign_path(item), data: { method: :delete, confirm: "Are you sure to delete campaign #{item.title}" }
-        - if item.emails_sent.any?
-          table
-            thead
-              th Client
-              th Sent at
-            tbody
-              - item.emails_sent.each do |email_sent|
-                tr
-                  td = email_sent.client.name
-                  td = email_sent.created_at.strftime("%d/%m/%Y %H:%M:%S")
-        - else
-          table
-            tbody
-              tr: td No items found
+      h3
+        = item.title
+        | &nbsp;&nbsp;&nbsp;
+        = "(#{item.emails_sent.read.count} / #{item.emails_sent.count})"
+        | &nbsp;&nbsp;&nbsp;
+        = link_to "Delete", admin_campaign_path(item), data: { method: :delete, confirm: "Are you sure to delete campaign #{item.title}" }
+      - if item.emails_sent.any?
+        table
+          thead
+            th Client
+            th Read
+            th Sent at
+          tbody
+            - item.emails_sent.each do |email_sent|
+              tr
+                td = email_sent.client.name
+                td = email_sent.read ? 'Yes' : 'No'
+                td = email_sent.created_at.strftime("%d/%m/%Y %H:%M:%S")
+      - else
+        table
+          tbody
+            tr: td No items found
+      br
+      br
   - else
-    h4 = No items found
+    h4 No items found
