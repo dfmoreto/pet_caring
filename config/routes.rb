@@ -12,7 +12,11 @@ Rails.application.routes.draw do
     resources :services
     resources :products
     resources :clients
+
   end
+
+  get 'email_sents/:id/read' => "email_sents#read"
+
   # mount Fae below your admin namespec
   mount Fae::Engine => '/admin'
 
