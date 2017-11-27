@@ -1,19 +1,26 @@
 == render 'fae/shared/index_header', title: @klass_humanized.pluralize.titleize
 
 main.content
-  table.js-sort-column
-    thead
-      tr
-        th Title
-        th.-action-wide Modified
-        th.-action data-sorter="false"
-
-    tbody
-      - if @items.present?
-        - @items.each do |item|
-          tr id=fae_sort_id(item)
-            td = item.title
-            td = fae_date_format item.updated_at
-            td = fae_delete_button item
-      - else
-        tr: td colspan="3" No items found
+  - if @items.present?
+    - @items.each do |item|
+      .collapsible
+        h3
+          = item.title
+          | &nbsp;&nbsp;&nbsp;
+          = link_to "Delete", admin_campaign_path(item), data: { method: :delete, confirm: "Are you sure to delete campaign #{item.title}" }
+        - if item.emails_sent.any?
+          table
+            thead
+              th Client
+              th Sent at
+            tbody
+              - item.emails_sent.each do |email_sent|
+                tr
+                  td = email_sent.client.name
+                  td = email_sent.created_at.strftime("%d/%m/%Y %H:%M:%S")
+        - else
+          table
+            tbody
+              tr: td No items found
+  - else
+    h4 = No items found
