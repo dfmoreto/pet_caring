@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171126170704) do
+ActiveRecord::Schema.define(version: 20171126211847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,15 @@ ActiveRecord::Schema.define(version: 20171126170704) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "kind"
+  end
+
+  create_table "email_sents", force: :cascade do |t|
+    t.integer  "campaign_id"
+    t.integer  "client_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["campaign_id"], name: "index_email_sents_on_campaign_id", using: :btree
+    t.index ["client_id"], name: "index_email_sents_on_client_id", using: :btree
   end
 
   create_table "fae_changes", force: :cascade do |t|
@@ -293,6 +302,8 @@ ActiveRecord::Schema.define(version: 20171126170704) do
   add_foreign_key "addresses", "clients"
   add_foreign_key "campaign_clients", "campaigns"
   add_foreign_key "campaign_clients", "clients"
+  add_foreign_key "email_sents", "campaigns"
+  add_foreign_key "email_sents", "clients"
   add_foreign_key "products", "suppliers"
   add_foreign_key "schedules", "clients"
   add_foreign_key "sell_products", "products"
