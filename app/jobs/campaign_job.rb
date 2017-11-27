@@ -3,8 +3,8 @@ class CampaignJob < ApplicationJob
 
   def perform(campaign, client)
     begin
-      MarketingMailer.campaign(client, campaign.title, campaign.body).deliver_now
-      campaign.emails_sent.create!(client: client)
+      email_sent = campaign.emails_sent.create!(client: client)
+      MarketingMailer.campaign(client, campaign, email_sent).deliver_now
     rescue => e
     end
   end
